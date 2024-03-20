@@ -1,0 +1,251 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color1: #140f0d;
+  --color2: #4446f3d8;
+  --color3: #0206f8d8;
+  --color4: #07208d;
+  --color5: #ffffff;
+}
+body {
+  font-family: "Rubix", sans-serif;
+  /* background-color: var(--color1); */
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+p {
+  margin: 0;
+}
+.b-shadow {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.error {
+  color: red;
+  font-size: 13px;
+}
+.error-div,
+.success-div {
+  color: white;
+  position: absolute;
+  top: 40px;
+  background-color: rgba(248, 16, 16, 0.774);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.success-div {
+  background-color: rgb(12, 137, 12);
+}
+/* header started */
+.header {
+  background-color: var(--color2);
+}
+.top-header p {
+  font-size: 10px;
+  color: black;
+}
+.bottom-header {
+  border-top: 1px solid var(--color5);
+}
+/* header ended */
+/* footer */
+footer {
+  background-color: var(--color1);
+}
+/* footer ended */
+
+/* calender colors */
+.color-green {
+  background-color: green !important;
+}
+.color-orange {
+  background-color: orange !important;
+}
+.color-red {
+  background-color: red !important;
+}
+/* calender colors ended  */
+
+.dull {
+  color: rgb(161, 161, 161) !important;
+}
+/* login */
+.login {
+  min-height: 85vh;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+.login h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: -1rem;
+}
+label {
+  color: gray;
+  font-size: 13px;
+}
+.login > div {
+  display: grid;
+  gap: 1rem;
+  margin-inline: auto;
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+}
+.login > div input {
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
+.button {
+  background-color: transparent;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 0.1rem 1rem;
+  transition: all 250ms ease-in-out;
+}
+.button:hover {
+  background-color: var(--color3);
+  color: white;
+}
+/* login ended */
+
+/* home */
+.dash-container {
+  min-height: 77vh;
+}
+.dash {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  /* width: 50%; */
+}
+.dash-link {
+  background-color: #edf3eed8;
+  color: black;
+  padding: 1.5rem;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+.dash-link:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #8687e0d8;
+}
+/* home ended */
+/* all employees */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  min-height: 77vh;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  font-size: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Not Found */
+.notFound {
+  display: grid;
+  place-items: center;
+  min-height: 77vh;
+  margin-inline: 4rem;
+}
+/* Not Found Ended */
+@media screen and (min-width: 800px) {
+  label {
+    font-size: 1rem;
+  }
+  .button {
+    font-size: 1.2rem;
+  }
+  .login .input-grp {
+    display: flex;
+    gap: 1rem;
+  }
+  .error-div,
+  .success-div {
+    top: 100px;
+  }
+  /* header */
+  .header p {
+    font-size: 1rem;
+  }
+  /* header ended */
+
+  /* dash */
+  .dash-container {
+    min-height: 81vh;
+  }
+  .dash {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  /* dash ended */
+  /* login */
+  .login {
+    min-height: 88vh;
+  }
+  .login > div {
+    width: 400px;
+  }
+  /* login ended */
+  /* table */
+  .table-container table {
+    width: 800px;
+    margin-inline: auto;
+    margin-block: 2rem;
+  }
+  th,
+  td {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  /* table ended */
+  /* single employee */
+  .single-emp {
+    min-height: 88vh;
+  }
+  .first-row {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .second-row {
+    width: 60%;
+    height: 100%;
+    display: grid;
+  }
+  /* single employee ended */
+  /* notification */
+  .noti {
+    min-height: 88vh;
+  }
+  /* notification ended */
+  .notFound {
+    min-height: 81vh;
+  }
+}
