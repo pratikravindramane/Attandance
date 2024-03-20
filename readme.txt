@@ -1,9 +1,3 @@
-watch youtube video 
-system design 
-frontend design
-make backend
-
-
 adminlogin
 -create doctor (admin)
 -add training data (admin)
