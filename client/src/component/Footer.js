@@ -7,7 +7,7 @@ function Footer() {
           <div className="row">
             <div className="col-12 ">
               <p className="text-center mb-0 text-white">
-                &copy;{new Date().getFullYear()} powered by Pratik Mane{" "}
+                &copy;{new Date().getFullYear()} powered by Dipesh Pawar{" "}
               </p>
             </div>
             {/* <div className="col-6">pollo</div> */}

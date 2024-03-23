@@ -46,8 +46,9 @@ p {
   background-color: rgb(12, 137, 12);
 }
 /* header started */
-.header {
-  background-color: var(--color2);
+
+.header .offcanvas-start {
+  width: 300px;
 }
 .top-header p {
   font-size: 10px;
@@ -80,31 +81,29 @@ footer {
 }
 /* login */
 .login {
-  min-height: 85vh;
-  display: grid;
-  place-items: center;
-  width: 100%;
-}
-.login h1 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: -1rem;
-}
-label {
-  color: gray;
-  font-size: 13px;
-}
-.login > div {
+  min-height: 87vh;
   display: grid;
   gap: 1rem;
   margin-inline: auto;
   padding: 2rem;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
+}
+.login h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+label {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0.5rem;
 }
 .login > div input {
   padding: 0.7rem;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid gray;
 }
 .button {

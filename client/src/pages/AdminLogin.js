@@ -12,15 +12,12 @@ function AdminLogin() {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const response = await axios.post(
-        `${backendLocation}/admin/login`,
-        values
-      );
+      const response = await axios.post(`${backendLocation}/admin`, values);
       if (response.data.message) {
         setServerError(response.data.message);
       } else {
         login();
-        navigate(`/dashboard/${response.data._id}`);
+        navigate(`/create/doctor`);
         localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
@@ -52,8 +49,7 @@ function AdminLogin() {
         </>
       )}
       <div>
-        <h1 className="mb-0">Admin Login</h1>
-        <hr className="my-0" />
+        <h1>Admin Login</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validateLogin}
@@ -75,12 +71,17 @@ function AdminLogin() {
                   className="error"
                 />
               </div>
+              <button
+                type="submit"
+                style={{ width: "100%" }}
+                className="text-white text-center d-grid my-4 bg-dark py-2 rounded fs-4"
+              >
+                Login
+              </button>
               <div className="d-flex justify-content-between align-items-center mt-3">
-                <button type="submit" className="button">
-                  Login
-                </button>
-                <Link className="button" to={"/"}>
-                  Back
+                <Link to={"/register"}>Sign UP</Link>
+                <Link to={"/"} className="">
+                  login
                 </Link>
               </div>
             </Form>

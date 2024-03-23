@@ -39,7 +39,7 @@ const feedback = asyncHandler(async (req, res) => {
   const id = req.params.id;
   validateMongoDbId(id);
   try {
-    const user = await user.findById(id);
+    const user = await User.findById(id);
     if (!user) throw new Error("No User Found!");
     const newFeedback = new FeedBack({ text: req.body.text, user: user._id });
     await newFeedback.save();
@@ -59,25 +59,31 @@ const report = asyncHandler(async (req, res) => {
       return res.send("No Disease Matched From our Database");
     }
     const distances = {};
-    for (const disease of diseases) {
-      const distance = math.sqrt(
-        Object.keys(req.body).reduce((acc, key) => {
-          return acc + Math.pow(req.body[key] - disease[key], 2);
-        }, 0)
-      );
-      distances[disease.name] = distance;
-    }
+    let testing = [];
+for (const disease of diseases) {
+  const distance = math.sqrt(
+    Object.keys(req.body).reduce((acc, key) => {
+      const valueDifference = req.body[key] - disease[key];
+      console.log(disease.cholestarol)
+      console.log(`Value difference for ${key}: ${valueDifference}`);
+      return acc + Math.pow(valueDifference, 2);
+    }, 0)
+  );
+  console.log(distance);
+  distances[disease.disease] = distance;
+}
 
     // Find the nearest disease
     const nearestDisease = Object.keys(distances).reduce((a, b) =>
       distances[a] < distances[b] ? a : b
     );
+
     // update user
     const updateUser = await User.findByIdAndUpdate(id, {
       report: nearestDisease,
     });
 
-    res.send(nearestDisease);
+    res.send({ report: `You have High risk of ${nearestDisease}` });
   } catch (error) {
     throw new Error(error.message);
   }

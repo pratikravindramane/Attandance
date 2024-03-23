@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { backendLocation } from "../config";
 import { useNavigate } from "react-router-dom";
-import { smallStr } from "../utils/smallStr";
 
 const AllEmployee = () => {
   const [employees, setEmployees] = useState([]);
@@ -67,9 +66,9 @@ const AllEmployee = () => {
             .reverse()
             .map((employee, index) => (
               <tr key={index}>
-                <td>{smallStr(employee.name)}</td>
-                <td>{smallStr(employee.email)}</td>
-                <td>{smallStr(employee.phone)}</td>
+                <td>{employee.name}</td>
+                <td>{employee.email}</td>
+                <td>{employee.phone}</td>
               </tr>
             ))}{" "}
         </tbody>

@@ -14,7 +14,7 @@ const login = asyncHandler(async (req, res) => {
     if (!verifyPassword) throw new Error("Wrong Credentials");
 
     // save to cookie
-    const token = genrateToken(user.id);
+    const token = genrateToken(user._id, user.isAdmin);
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 72 * 60 * 60 * 1000,
@@ -31,7 +31,7 @@ const login = asyncHandler(async (req, res) => {
 
 // admin login
 const adminLogin = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
   try {
     // verify email and passowrd
     const user = await User.findOne({ email });
@@ -41,7 +41,7 @@ const adminLogin = asyncHandler(async (req, res) => {
     if (!verifyPassword) throw new Error("Wrong Credentials");
 
     // save to cookie
-    const token = genrateToken(user.id);
+    const token = genrateToken(user._id, user.isAdmin);
     res.cookie("token", token, {
       httpOnly: true,
       expiresIn: 72 * 60 * 60 * 1000,

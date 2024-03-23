@@ -14,7 +14,7 @@ const TrainingSchema = new Schema(
     ca: { type: Number, require: true },
     thal: { type: Number, require: true },
     bp: { type: Number, require: true },
-    cholestarol: { type: Number, require: true },
+    cholesterol: { type: Number, require: true },
     thalach: { type: Number, require: true },
     oldPeak: { type: Number, require: true },
   },

@@ -17,8 +17,14 @@ const getAll = asyncHandler(async (req, res) => {
 
 // Create Doctor
 const createDoctor = asyncHandler(async (req, res) => {
+  const { email } = req.body;
   try {
+    const doctor = await Doctor.findOne({ email });
+    if (doctor) {
+      throw new Error("Doctor Already Exist with this Email");
+    }
     const newDoctor = new Doctor(req.body);
+
     await newDoctor.save();
     res.send("Doctor Added");
   } catch (error) {

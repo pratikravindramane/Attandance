@@ -1,50 +1,136 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 function Header() {
   const [time, setTime] = useState(new Date());
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    // Update the time every second
-    const intervalId = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
 
-    // Clean up the interval when the component is unmounted
-    return () => clearInterval(intervalId);
-  }, []); // Empty dependency array means useEffect runs only once when the component mounts
-
-  const formattedTime = time.toLocaleTimeString();
+  const token = localStorage.getItem("token");
+  const decode = token ? jwtDecode(token) : false;
+  useEffect(() => {}, []); // Empty dependency array means useEffect runs only once when the component mounts
 
   return (
-    <div className="header py-3">
+    <div className="header  ">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <button
+            className="btn navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <Link className="navbar-brand" to={isLoggedIn?"/doctors":"/"}>
+            Predict
+          </Link>
+        </div>
+      </nav>
       <div className="container-xxl">
-        <div className="row">
-          <div className="col-12 d-flex justify-content-between top-header align-items-center text-white fs-7 pb-3">
-            <p className="mb-0">{time.toLocaleDateString()}</p>
-            <p className="mb-0">{formattedTime}</p>
+        <div
+          className="offcanvas offcanvas-start"
+          data-bs-scroll="true"
+          data-bs-backdrop="false"
+          tabIndex="-1"
+          id="offcanvasScrolling"
+          aria-labelledby="offcanvasScrollingLabel"
+        >
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="offcanvasScrollingLabel">
+              Navigation
+            </h5>
+            <button
+              type="button"
+              className="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="offcanvas-body d-flex flex-column ">
+            {isLoggedIn ? (
+              <>
+                {decode.isAdmin ? (
+                  <>
+                    <Link to={"/create/doctor"} className="my-1 text-dark">
+                      Create Doctor
+                    </Link>
+                    <hr />
+                    <Link to={"/create/training"} className="my-1 text-dark">
+                      Create Training
+                    </Link>
+                    <hr />
+                    <Link to={"/doctors"} className="my-1 text-dark">
+                      Doctors
+                    </Link>
+                    <hr />
+                    <Link to={"/trainings"} className="my-1 text-dark">
+                      Trainings
+                    </Link>
+                    <hr />
+                    <Link to={"/feedbacks"} className="my-1 text-dark">
+                      Feedbacks
+                    </Link>
+                    <hr />
+                    <Link
+                      className="my-1 text-dark"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        logout();
+                        localStorage.removeItem("token");
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to={"/check/heart"} className="my-1 text-dark">
+                      Check Heart
+                    </Link>
+                    <hr />
+                    <Link to={"/doctors"} className="my-1 text-dark">
+                      Doctors
+                    </Link>
+                    <hr />
+                    <Link to={"/create/feedback"} className="my-1 text-dark">
+                      Feedback
+                    </Link>
+                    <hr />
+                    <Link
+                      className="my-1 text-dark"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        logout();
+                        localStorage.removeItem("token");
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </Link>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <Link to={"/"} className="my-1 text-dark">
+                  Login{" "}
+                </Link>
+                <hr />
+                <Link to={"/register"} className="my-1 text-dark">
+                  Register
+                </Link>
+                <hr />
+                <Link to={"/admin/login"} className="my-1 text-dark">
+                  Admin Login{" "}
+                </Link>
+              </>
+            )}
           </div>
         </div>
-        {isLoggedIn && (
-          <div className="row">
-            <div className="col-12 d-flex justify-content-around align-items-center text-white fs-7 mt-3 bottom-header">
-              <>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    logout();
-                    localStorage.removeItem("token");
-                    navigate("/");
-                  }}
-                  className="bg-transparent py-2 text-white px-3 mt-2 border-0"
-                >
-                  Logout
-                </button>
-              </>
-            </div>
-          </div>
-        )}
       </div>
       <div></div>
     </div>
