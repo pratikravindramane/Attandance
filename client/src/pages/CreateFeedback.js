@@ -17,7 +17,6 @@ function CreateDoctor() {
   const decode = jwtDecode(token);
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      console.log(decode);
       const newEmployee = await axios.post(
         `${backendLocation}/user/feedback/${decode.id}`,
         values,
@@ -50,7 +49,7 @@ function CreateDoctor() {
                 e.preventDefault();
                 setServerError(false);
               }}
-              className="button border border-dark bg-danger"
+              className="error-btn"
             >
               ok
             </button>

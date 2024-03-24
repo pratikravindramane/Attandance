@@ -52,6 +52,34 @@ const feedback = asyncHandler(async (req, res) => {
 // create report
 const report = asyncHandler(async (req, res) => {
   const id = req.params.id;
+  const {
+    age,
+    chestPain,
+    sugar,
+    restecg,
+    exang,
+    slope,
+    ca,
+    bp,
+    cholesterol,
+    thalach,
+    thal,
+    oldPeak,
+  } = req.body;
+  let obj = {
+    age,
+    chestPain,
+    sugar,
+    restecg,
+    exang,
+    slope,
+    ca,
+    bp,
+    thal,
+    cholesterol,
+    thalach,
+    oldPeak,
+  };
   validateMongoDbId(id);
   try {
     const diseases = await Training.find({});
@@ -60,18 +88,15 @@ const report = asyncHandler(async (req, res) => {
     }
     const distances = {};
     let testing = [];
-for (const disease of diseases) {
-  const distance = math.sqrt(
-    Object.keys(req.body).reduce((acc, key) => {
-      const valueDifference = req.body[key] - disease[key];
-      console.log(disease.cholestarol)
-      console.log(`Value difference for ${key}: ${valueDifference}`);
-      return acc + Math.pow(valueDifference, 2);
-    }, 0)
-  );
-  console.log(distance);
-  distances[disease.disease] = distance;
-}
+    for (const disease of diseases) {
+      const distance = math.sqrt(
+        Object.keys(obj).reduce((acc, key) => {
+          const valueDifference = obj[key] - disease[key];
+          return acc + Math.pow(valueDifference, 2);
+        }, 0)
+      );
+      distances[disease.disease] = distance;
+    }
 
     // Find the nearest disease
     const nearestDisease = Object.keys(distances).reduce((a, b) =>
@@ -83,7 +108,7 @@ for (const disease of diseases) {
       report: nearestDisease,
     });
 
-    res.send({ report: `You have High risk of ${nearestDisease}` });
+    res.send({ report: `You have risk of ${nearestDisease}` });
   } catch (error) {
     throw new Error(error.message);
   }

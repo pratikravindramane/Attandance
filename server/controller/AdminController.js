@@ -46,7 +46,7 @@ const createTraining = asyncHandler(async (req, res) => {
 // get all feeback
 const getAllFeedback = asyncHandler(async (req, res) => {
   try {
-    const feeback = await FeedBack.find({});
+    const feeback = await FeedBack.find({}).populate("user");
     if (!feeback) throw new Error("No FeedBack Found!");
     res.send(feeback);
   } catch (error) {

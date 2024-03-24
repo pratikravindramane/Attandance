@@ -41,14 +41,14 @@ function AdminLogin() {
                 e.preventDefault();
                 setServerError(false);
               }}
-              className="button border border-dark bg-danger"
+              className="error-btn"
             >
               ok
             </button>
           </div>
         </>
       )}
-      <div>
+      <div className="transform">
         <h1>Admin Login</h1>
         <Formik
           initialValues={initialValues}

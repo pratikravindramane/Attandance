@@ -2,7 +2,6 @@ import "./App.css";
 import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
-import AllEmployees from "./pages/AllEmployee";
 import Layout from "./utils/Layout";
 import { Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
@@ -14,6 +13,7 @@ import Trainings from "./pages/Trainings";
 import CreateFeedback from "./pages/CreateFeedback";
 import CreateTraining from "./pages/CreateTraining";
 import CheckHeart from "./pages/CheckHeart";
+import AllUsers from "./pages/AllUsers";
 function App() {
   const { isLoggedIn } = useAuth();
   return (
@@ -30,6 +30,7 @@ function App() {
             <Route path="/doctors" element={<Dcotors />} />
             <Route path="/feedbacks" element={<Feedbacks />} />
             <Route path="/trainings" element={<Trainings />} />
+            <Route path="/users" element={<AllUsers />} />
             <Route path="/create/feedback" element={<CreateFeedback />} />
             <Route path="/create/training" element={<CreateTraining />} />
             <Route path="/create/doctor" element={<CreateDoctor />} />

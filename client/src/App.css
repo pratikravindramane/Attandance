@@ -29,24 +29,42 @@ p {
   color: red;
   font-size: 13px;
 }
+.error-div p {
+  color: red;
+  font-size: 13px;
+}
 .error-div,
 .success-div {
+  border: 1px solid black;
   color: white;
   position: absolute;
   top: 40px;
-  background-color: rgba(248, 16, 16, 0.774);
+  background-color: rgba(240, 240, 240, 0.774);
   padding: 1rem;
   border-radius: 10px;
   width: 300px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.error-btn {
+  background-color: transparent;
+  padding: 0.3rem 1rem;
+  border-radius: 10px;
+  border: 1px solid;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.error-btn:hover {
+  background-color: white;
 }
 .success-div {
-  background-color: rgb(12, 137, 12);
+  background-color: rgb(255, 255, 255);
 }
 /* header started */
-
+.hide-nav {
+  display: none;
+}
 .header .offcanvas-start {
   width: 300px;
 }
@@ -88,7 +106,8 @@ footer {
   padding: 2rem;
   border-radius: 10px;
 }
-.login h1 {
+.login h1,
+.table-container h1 {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 2rem;
@@ -147,7 +166,7 @@ label {
 .table-container {
   width: 100%;
   overflow-x: auto;
-  min-height: 77vh;
+  min-height: 85vh;
 }
 
 table {
@@ -175,6 +194,7 @@ th {
   margin-inline: 4rem;
 }
 /* Not Found Ended */
+
 @media screen and (min-width: 800px) {
   label {
     font-size: 1rem;
@@ -189,10 +209,31 @@ th {
   .error-div,
   .success-div {
     top: 100px;
+    right: 25%;
   }
   /* header */
+  .hide-nav {
+    display: block;
+  }
+  .container-fluid {
+    padding-inline: 4rem;
+  }
+  .active {
+    color: black;
+    font-weight: bold;
+  }
+  .hide-nav a {
+    margin-inline: 0.8rem;
+    color: rgb(79, 79, 79);
+  }
+  .hide-nav a:hover {
+    color: black;
+  }
   .header p {
     font-size: 1rem;
+  }
+  .navbar-toggler {
+    display: none;
   }
   /* header ended */
 
@@ -209,8 +250,25 @@ th {
   .login {
     min-height: 88vh;
   }
+  .transform {
+    transform: scale(0.8);
+  }
+  .login > div input {
+    /* padding: 0.2rem; */
+  }
+  label {
+    font-size: 12px;
+    color: rgb(68, 68, 68);
+    margin-bottom: 0.2rem;
+  }
   .login > div {
-    width: 400px;
+    width: 700px;
+    margin-inline: auto;
+  }
+  .login form .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
   /* login ended */
   /* table */
@@ -222,7 +280,7 @@ th {
   th,
   td {
     font-size: 1rem;
-    padding: 1rem;
+    padding: 2rem;
   }
   /* table ended */
   /* single employee */

@@ -2,20 +2,24 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { backendLocation } from "../config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Doctors = () => {
-  const [doctors, setDoctors] = useState([]);
+const AllUsers = () => {
+  const [users, setUsers] = useState([]);
   const [serverError, setServerError] = useState(false);
+  const [active, setActive] = useState(false);
 
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   const navigate = useNavigate();
-
+  const currentUrl = window.location.href;
   useEffect(() => {
+    if(currentUrl.includes("users")){
+      setActive(true)
+    }
     const fetch = async () => {
       try {
-        const response = await axios.get(`${backendLocation}/user/doctors`, {
+        const response = await axios.get(`${backendLocation}/admin/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -24,7 +28,7 @@ const Doctors = () => {
         if (response?.data?.message) {
           setServerError(response?.data?.message);
         } else {
-          setDoctors(response?.data);
+          setUsers(response?.data);
         }
       } catch (error) {}
     };
@@ -50,13 +54,12 @@ const Doctors = () => {
         </>
       )}
       <div className="table-responsive">
-        <table className="table">
+        <table className="table  ">
           <thead className="table table-striped ">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
-              <th scope="col">Speciality</th>
               <th scope="col">Age</th>
               <th scope="col">Gender</th>
               <th scope="col">Address</th>
@@ -64,18 +67,17 @@ const Doctors = () => {
             </tr>
           </thead>
           <tbody>
-            {doctors
+            {users
               ?.slice()
               .reverse()
-              .map((employee, index) => (
+              .map((user, index) => (
                 <tr key={index}>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.phone}</td>
-                  <td>{employee.speciality}</td>
-                  <td>{employee.age}</td>
-                  <td>{employee.gender}</td>
-                  <td colSpan={2}>{employee.address}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.age}</td>
+                  <td>{user.gender}</td>
+                  <td colSpan={2}>{user.address}</td>
                 </tr>
               ))}{" "}
           </tbody>
@@ -85,4 +87,4 @@ const Doctors = () => {
   );
 };
 
-export default Doctors;
+export default AllUsers;

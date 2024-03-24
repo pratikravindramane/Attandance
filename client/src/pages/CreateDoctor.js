@@ -44,7 +44,7 @@ function CreateDoctor() {
                 e.preventDefault();
                 setServerError(false);
               }}
-              className="button border border-dark bg-danger"
+              className="error-btn"
             >
               ok
             </button>
@@ -62,81 +62,96 @@ function CreateDoctor() {
             gender: "male",
             age: "",
             speciality: "",
+            address: "",
           }}
           validationSchema={doctorValidation}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
             <Form>
-              <div className="d-grid mt-3">
-                <label htmlFor="name">Name:</label>
-                <Field type="text" name="name" />
-                <ErrorMessage name="name" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="email">Email:</label>
-                <Field type="email" name="email" />
-                <ErrorMessage name="email" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="phone">Phone:</label>
-                <Field type="tel" name="phone" />
-                <ErrorMessage name="phone" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="address">Address:</label>
-                <Field type="text" name="address" />
-                <ErrorMessage
-                  name="address"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="gender">Gender:</label>
-                <Field
-                  as="select"
-                  name="gender"
-                  className="form-select form-select-lg fs-6  "
-                >
-                  <option value="male" className="fs-6">
-                    Male
-                  </option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </Field>
-                <ErrorMessage name="gender" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="age">Age:</label>
-                <Field type="number" name="age" />
-                <ErrorMessage name="age" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="speciality">Doctor Specialty:</label>
-                <Field
-                  as="select"
-                  name="speciality"
-                  className="form-select form-select-lg mb-3 fs-6"
-                >
-                  <option value="" disabled>
-                    Select doctor specialty
-                  </option>
-                  <option value="cardiology" className="fs-6">
-                    Cardiology
-                  </option>
-                  <option value="dermatology" className="fs-6">
-                    Dermatology
-                  </option>
-                  <option value="pediatrics">Pediatrics</option>
-                  <option value="orthopedics">Orthopedics</option>
-                  {/* Add more options as needed */}
-                </Field>
-                <ErrorMessage
-                  name="speciality"
-                  component="div"
-                  className="error"
-                />
+              <div className="form-grid">
+                <div className="d-grid mt-3">
+                  <label htmlFor="name">Name:</label>
+                  <Field type="text" name="name" />
+                  <ErrorMessage name="name" component="div" className="error" />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="email">Email:</label>
+                  <Field type="email" name="email" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="phone">Phone:</label>
+                  <Field type="tel" name="phone" />
+                  <ErrorMessage
+                    name="phone"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="address">Address:</label>
+                  <Field type="text" name="address" />
+                  <ErrorMessage
+                    name="address"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="gender">Gender:</label>
+                  <Field
+                    as="select"
+                    name="gender"
+                    className="form-select form-select-lg fs-6  "
+                  >
+                    <option value="male" className="fs-6">
+                      Male
+                    </option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </Field>
+                  <ErrorMessage
+                    name="gender"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="age">Age:</label>
+                  <Field type="number" name="age" />
+                  <ErrorMessage name="age" component="div" className="error" />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="speciality">Doctor Specialty:</label>
+                  <Field
+                    as="select"
+                    name="speciality"
+                    className="form-select form-select-lg mb-3 fs-6"
+                  >
+                    <option value="" disabled>
+                      Select doctor specialty
+                    </option>
+                    <option value="cardiology" className="fs-6">
+                      Cardiology
+                    </option>
+                    <option value="dermatology" className="fs-6">
+                      Dermatology
+                    </option>
+                    <option value="pediatrics">Pediatrics</option>
+                    <option value="orthopedics">Orthopedics</option>
+                    {/* Add more options as needed */}
+                  </Field>
+                  <ErrorMessage
+                    name="speciality"
+                    component="div"
+                    className="error"
+                  />
+                </div>
               </div>
 
               <button

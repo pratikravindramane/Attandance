@@ -30,10 +30,16 @@ export const doctorValidation = Yup.object().shape({
 
 export const validateEmployee = Yup.object().shape({
   name: Yup.string().required("Name is required"),
+  address: Yup.string().required("Address is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .min(4, "Password must be at least 6 characters")
     .required("Password is required"),
+  gender: Yup.string().required("Gender is required"),
+  age: Yup.number()
+    .required("Age is required")
+    .positive("Age must be a positive number")
+    .integer("Age must be an integer"),
   phone: Yup.string()
     .typeError("Phone must be a number")
     // .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
@@ -78,7 +84,7 @@ export const validateCheck = Yup.object().shape({
     .required("Age is required")
     .positive("Age must be a positive number")
     .integer("Age must be an integer"),
-  gender: Yup.string().default("both"),
+  // gender: Yup.string().default("both"),
   chestPain: Yup.number().required("Chest pain is required"),
   sugar: Yup.number().required("Sugar level is required"),
   restecg: Yup.number().required(
@@ -93,7 +99,7 @@ export const validateCheck = Yup.object().shape({
   ),
   thal: Yup.number().required("Thalassemia is required"),
   bp: Yup.number().required("Blood pressure is required"),
-  cholestarol: Yup.number().required("Cholesterol level is required"),
+  cholesterol: Yup.number().required("Cholesterol level is required"),
   thalach: Yup.number().required("Maximum heart rate achieved is required"),
   oldPeak: Yup.number().required(
     "ST depression induced by exercise relative to rest is required"

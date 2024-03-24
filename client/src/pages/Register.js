@@ -14,6 +14,9 @@ function Register() {
     email: "",
     password: "",
     phone: "",
+    gender: "male",
+    age: "",
+    address: "",
   };
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -43,14 +46,14 @@ function Register() {
                 e.preventDefault();
                 setServerError(false);
               }}
-              className="button border border-dark bg-danger"
+              className="error-btn"
             >
               ok
             </button>
           </div>
         </>
       )}
-      <div>
+      <div className="transform">
         <h1>Register</h1>
         <Formik
           initialValues={initialValues}
@@ -59,30 +62,75 @@ function Register() {
         >
           {({ dirty, isValid }) => (
             <Form>
-              <div className="d-grid mt-3">
-                <label htmlFor="name">Name</label>
-                <Field type="text" id="name" name="name" />
-                <ErrorMessage name="name" component="div" className="error" />
+              <div className="form-grid">
+                <div className="d-grid mt-3">
+                  <label htmlFor="name">Name</label>
+                  <Field type="text" id="name" name="name" />
+                  <ErrorMessage name="name" component="div" className="error" />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="email">Email</label>
+                  <Field type="email" id="email" name="email" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="phone">Phone</label>
+                  <Field type="number" id="phone" name="phone" />
+                  <ErrorMessage
+                    name="phone"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="gender">Gender:</label>
+                  <Field
+                    as="select"
+                    name="gender"
+                    className="form-select form-select-lg fs-6  "
+                  >
+                    <option value="male" className="fs-6">
+                      Male
+                    </option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </Field>
+                  <ErrorMessage
+                    name="gender"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+
+                <div className="d-grid mt-3">
+                  <label htmlFor="age">Age:</label>
+                  <Field type="number" name="age" />
+                  <ErrorMessage name="age" component="div" className="error" />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="address">Address:</label>
+                  <Field type="text" name="address" />
+                  <ErrorMessage
+                    name="address"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="password">Password</label>
+                  <Field type="password" id="password" name="password" />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="error"
+                  />
+                </div>
               </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="email">Email</label>
-                <Field type="email" id="email" name="email" />
-                <ErrorMessage name="email" component="div" className="error" />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="password">Password</label>
-                <Field type="password" id="password" name="password" />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div className="d-grid mt-3">
-                <label htmlFor="phone">Phone</label>
-                <Field type="number" id="phone" name="phone" />
-                <ErrorMessage name="phone" component="div" className="error" />
-              </div>
+
               <button
                 type="submit"
                 style={{ width: "100%" }}

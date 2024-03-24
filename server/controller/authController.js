@@ -57,7 +57,7 @@ const adminLogin = asyncHandler(async (req, res) => {
 
 // register
 const register = asyncHandler(async (req, res) => {
-  const { email, password, phone, name } = req.body;
+  const { email, password, phone, name, age, gender, address } = req.body;
   // if user exists
   const user = await User.findOne({ email });
   if (user) throw new Error("user already exist with this email");
@@ -71,6 +71,9 @@ const register = asyncHandler(async (req, res) => {
       email,
       phone,
       password: hash,
+      age,
+      gender,
+      address,
     });
     await newUser.save();
     res.send({ msg: "Successfully Registered", newUser });
