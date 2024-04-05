@@ -19,24 +19,17 @@ function App() {
   return (
     <Layout>
       <Routes>
-        {!isLoggedIn ? (
-          <>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-          </>
-        ) : (
-          <>
-            <Route path="/doctors" element={<Dcotors />} />
-            <Route path="/feedbacks" element={<Feedbacks />} />
-            <Route path="/trainings" element={<Trainings />} />
-            <Route path="/users" element={<AllUsers />} />
-            <Route path="/create/feedback" element={<CreateFeedback />} />
-            <Route path="/create/training" element={<CreateTraining />} />
-            <Route path="/create/doctor" element={<CreateDoctor />} />
-            <Route path="/check/heart" element={<CheckHeart />} />
-          </>
-        )}
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/doctors" element={<Dcotors />} />
+        <Route path="/feedbacks" element={<Feedbacks />} />
+        <Route path="/trainings" element={<Trainings />} />
+        <Route path="/users" element={<AllUsers />} />
+        <Route path="/create/feedback" element={<CreateFeedback />} />
+        <Route path="/create/training" element={<CreateTraining />} />
+        <Route path="/create/doctor" element={<CreateDoctor />} />
+        <Route path="/check/heart" element={<CheckHeart />} />
         <Route path="*" element={<NotFound />} /> {/* 404 route */}
       </Routes>
     </Layout>

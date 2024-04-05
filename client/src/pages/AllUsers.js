@@ -12,10 +12,11 @@ const AllUsers = () => {
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   const navigate = useNavigate();
+  const [role, setRole] = useState(false);
   const currentUrl = window.location.href;
   useEffect(() => {
-    if(currentUrl.includes("users")){
-      setActive(true)
+    if (currentUrl.includes("users")) {
+      setActive(true);
     }
     const fetch = async () => {
       try {
@@ -25,16 +26,42 @@ const AllUsers = () => {
             "Content-Type": "application/json",
           },
         });
+        const admin = await axios.get(`${backendLocation}/user/${decode.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         if (response?.data?.message) {
           setServerError(response?.data?.message);
         } else {
           setUsers(response?.data);
+          setRole(admin?.data?.isAdmin);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetch();
-  }, []);
-
+  });
+  const deleteHandler = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${backendLocation}/admin/delete/user/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response?.data?.message) {
+        setServerError(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="table-container my-4 px-3">
       {serverError && (
@@ -54,16 +81,15 @@ const AllUsers = () => {
         </>
       )}
       <div className="table-responsive">
-        <table className="table  ">
-          <thead className="table table-striped ">
+        <table className="table table-striped">
+          <thead className="thead-dark custom-header">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
               <th scope="col">Age</th>
               <th scope="col">Gender</th>
-              <th scope="col">Address</th>
-              <th className="text-white">....;ljkhsdfl;kjh..</th>
+              <th scope="col">Address</th> {role && <th scope="col">Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -77,9 +103,19 @@ const AllUsers = () => {
                   <td>{user.phone}</td>
                   <td>{user.age}</td>
                   <td>{user.gender}</td>
-                  <td colSpan={2}>{user.address}</td>
+                  <td>{user.address}</td>
+                  {role && (
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteHandler(user._id)}
+                      >
+                        delete
+                      </button>
+                    </td>
+                  )}
                 </tr>
-              ))}{" "}
+              ))}
           </tbody>
         </table>
       </div>

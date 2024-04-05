@@ -13,11 +13,8 @@ const getAUser = asyncHandler(async (req, res) => {
 
   try {
     const user = await User.findById(id);
-    const lectures = await Lecture.find({
-      userId: id,
-    });
     if (!user) throw new Error("No User Found!");
-    res.send({ user, lectures });
+    res.send(user);
   } catch (error) {
     throw new Error(error);
   }
@@ -87,7 +84,6 @@ const report = asyncHandler(async (req, res) => {
       return res.send("No Disease Matched From our Database");
     }
     const distances = {};
-    let testing = [];
     for (const disease of diseases) {
       const distance = math.sqrt(
         Object.keys(obj).reduce((acc, key) => {

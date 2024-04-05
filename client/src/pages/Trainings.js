@@ -11,6 +11,7 @@ const Trainings = () => {
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   const navigate = useNavigate();
+  const [role, setRole] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -21,16 +22,40 @@ const Trainings = () => {
             "Content-Type": "application/json",
           },
         });
+        const admin = await axios.get(`${backendLocation}/user/${decode.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         if (response?.data?.message) {
           setServerError(response?.data?.message);
         } else {
+          setRole(admin?.data?.isAdmin);
           setDoctors(response?.data);
         }
       } catch (error) {}
     };
     fetch();
-  }, []);
-
+  });
+  const deleteHandler = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${backendLocation}/admin/delete/training/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response?.data?.message) {
+        setServerError(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="table-container my-4 px-3">
       {serverError && (
@@ -50,8 +75,8 @@ const Trainings = () => {
         </>
       )}
       <div className="table-responsive">
-        <table className="table ">
-          <thead className="table table-striped ">
+        <table className="table table-striped">
+          <thead className="table-dark  custom-header">
             <tr>
               <th scope="col">Disease</th>
               <th scope="col">Age</th>
@@ -71,7 +96,7 @@ const Trainings = () => {
               <th scope="col" colSpan={3}>
                 Old Peack
               </th>
-              <th></th>
+              {role && <th scope="col">Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -98,8 +123,13 @@ const Trainings = () => {
                   <td className="text-white">.......</td>
                   <td>{disease.oldPeak}</td>
                   <td className="text-white">.......</td>
+                  {role && (
+                    <td style={{ fontSize: ".8rem" }}>
+                      <button className="btn btn-danger" onClick={()=>deleteHandler(disease._id)}>delete</button>
+                    </td>
+                  )}
                 </tr>
-              ))}{" "}
+              ))}
           </tbody>
         </table>
       </div>

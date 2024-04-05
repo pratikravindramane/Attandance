@@ -14,7 +14,10 @@ body {
   font-family: "Rubix", sans-serif;
   /* background-color: var(--color1); */
 }
-
+.custom-header {
+  background-color: #012d5b; /* Blue background color */
+  color: white; /* White text color */
+}
 a {
   text-decoration: none;
   display: inline-block;
@@ -249,12 +252,6 @@ th {
   /* login */
   .login {
     min-height: 88vh;
-  }
-  .transform {
-    transform: scale(0.8);
-  }
-  .login > div input {
-    /* padding: 0.2rem; */
   }
   label {
     font-size: 12px;

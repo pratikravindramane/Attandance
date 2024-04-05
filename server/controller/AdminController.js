@@ -64,10 +64,40 @@ const getAllTraining = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+const deleteDoctor= asyncHandler(async (req, res) => {
+  try {
+    const trainings = await Doctor.findByIdAndDelete(req.params.id);
+    if (!trainings) throw new Error("No Doctor Found!");
+    res.send("Deleted Successfully");
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.findByIdAndDelete(req.params.id);
+    if (!users) throw new Error("No User Found!");
+    res.send("Deleted Successfully");
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const deleteTraining = asyncHandler(async (req, res) => {
+  try {
+    const training = await Training.findByIdAndDelete(req.params.id);
+    if (!training) throw new Error("No User Found!");
+    res.send('Delted Successfully');
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 module.exports = {
   getAll,
   createDoctor,
   createTraining,
   getAllFeedback,
   getAllTraining,
+  deleteDoctor,
+  deleteUser,
+  deleteTraining
 };

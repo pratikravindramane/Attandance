@@ -10,6 +10,8 @@ const login = asyncHandler(async (req, res) => {
     // verify email and passowrd
     const user = await User.findOne({ email });
     if (!user) throw new Error("No user found with this Email");
+    if (user?.isAdmin)
+      throw new Error("admin Can't Login thorough this Method");
     const verifyPassword = await bcrypt.compare(password, user.password);
     if (!verifyPassword) throw new Error("Wrong Credentials");
 

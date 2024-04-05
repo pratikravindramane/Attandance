@@ -51,8 +51,8 @@ const Doctors = () => {
       )}
       {/* <h1>FeedBacks</h1> */}
       <div className="table-responsive">
-        <table className="table">
-          <thead className="table table-striped ">
+        <table className="table table-striped ">
+          <thead className="table-dark ">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Feedbak</th>

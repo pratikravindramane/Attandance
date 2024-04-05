@@ -66,7 +66,7 @@ function CheckHeart() {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  window.location.reload();
+                  setReport(false);
                 }}
                 className="btn border border-2"
               >

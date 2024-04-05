@@ -7,6 +7,7 @@ export const validateCompany = Yup.object().shape({
     .min(4, "Password must be at least 6 characters")
     .required("Password is required"),
   phone: Yup.string()
+    .matches(/^\d+$/, "Phone number must contain only numbers")
     .min(10, "Phone number must be exactly 10 digits")
     .max(10, "Phone number must be exactly 10 digits")
     .required("Phone is required"),
@@ -17,6 +18,7 @@ export const doctorValidation = Yup.object().shape({
   address: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email").required("Address is required"),
   phone: Yup.string()
+    .matches(/^\d+$/, "Phone number must contain only numbers")
     .min(10, "Phone number must be exactly 10 digits")
     .max(10, "Phone number must be exactly 10 digits")
     .required("Phone is required"),
@@ -41,8 +43,9 @@ export const validateEmployee = Yup.object().shape({
     .positive("Age must be a positive number")
     .integer("Age must be an integer"),
   phone: Yup.string()
-    .typeError("Phone must be a number")
-    // .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .matches(/^\d+$/, "Phone number must contain only numbers")
+    .min(10, "Phone number must be exactly 10 digits")
+    .max(10, "Phone number must be exactly 10 digits")
     .required("Phone is required"),
 });
 

@@ -11,6 +11,7 @@ const Doctors = () => {
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   const navigate = useNavigate();
+  const [role, setRole] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -21,16 +22,40 @@ const Doctors = () => {
             "Content-Type": "application/json",
           },
         });
+        const admin = await axios.get(`${backendLocation}/user/${decode.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         if (response?.data?.message) {
           setServerError(response?.data?.message);
         } else {
+          setRole(admin?.data?.isAdmin);
           setDoctors(response?.data);
         }
       } catch (error) {}
     };
     fetch();
-  }, []);
-
+  });
+  const deleteHandler = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${backendLocation}/admin/delete/doctor/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response?.data?.message) {
+        setServerError(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="table-container my-4 px-3">
       {serverError && (
@@ -50,8 +75,8 @@ const Doctors = () => {
         </>
       )}
       <div className="table-responsive">
-        <table className="table">
-          <thead className="table table-striped ">
+        <table className="table table-striped">
+          <thead className="thead-dark custom-header ">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -61,21 +86,32 @@ const Doctors = () => {
               <th scope="col">Gender</th>
               <th scope="col">Address</th>
               <th className="text-white">....;ljkhsdfl;kjh..</th>
+              {role && <th scope="col">Action</th>}
             </tr>
           </thead>
           <tbody>
             {doctors
               ?.slice()
               .reverse()
-              .map((employee, index) => (
+              .map((e, index) => (
                 <tr key={index}>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.phone}</td>
-                  <td>{employee.speciality}</td>
-                  <td>{employee.age}</td>
-                  <td>{employee.gender}</td>
-                  <td colSpan={2}>{employee.address}</td>
+                  <td>{e.name}</td>
+                  <td>{e.email}</td>
+                  <td>{e.phone}</td>
+                  <td>{e.speciality}</td>
+                  <td>{e.age}</td>
+                  <td>{e.gender}</td>
+                  <td colSpan={2}>{e.address}</td>
+                  {role && (
+                    <td style={{ fontSize: ".8rem" }}>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteHandler(e._id)}
+                      >
+                        delete
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}{" "}
           </tbody>
