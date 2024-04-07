@@ -85,7 +85,9 @@ const Doctors = () => {
               <th scope="col">Age</th>
               <th scope="col">Gender</th>
               <th scope="col">Address</th>
-              <th className="text-white">....;ljkhsdfl;kjh..</th>
+              <th style={{ color: "#012d5b" }}>
+                ....;ljkhsdfl;kjh..
+              </th>
               {role && <th scope="col">Action</th>}
             </tr>
           </thead>

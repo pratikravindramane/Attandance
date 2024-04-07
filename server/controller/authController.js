@@ -114,9 +114,29 @@ const logout = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+// Change Password
+const changePassword = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("No User Found With This Email");
+  const salt = await bcrypt.genSaltSync(10);
+  const hash = await bcrypt.hash(password, salt);
+    const token = genrateToken(user._id, user.isAdmin);
+    user.password = hash;
+    user.token = token;
+    await user.save();
+    res.send(user); // forbidden
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+});
 module.exports = {
   login,
   adminLogin,
   logout,
   register,
+  changePassword,
 };

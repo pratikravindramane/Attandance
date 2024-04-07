@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 function Header() {
-  const [time, setTime] = useState(new Date());
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,6 +101,15 @@ function Header() {
                     >
                       Check Heart
                     </Link>
+
+                    <Link
+                      to={"/reports"}
+                      className={`my-1 ${
+                        location.pathname === "/reports" ? "active" : ""
+                      }`}
+                    >
+                      Report
+                    </Link>
                     <Link
                       to={"/doctors"}
                       className={`my-1 ${
@@ -141,6 +149,14 @@ function Header() {
                   }`}
                 >
                   Login{" "}
+                </Link>
+                <Link
+                  to={"/doctor-login"}
+                  className={`my-1 ${
+                    location.pathname === "/doctor-login" ? "active" : ""
+                  }`}
+                >
+                  Doctor Login{" "}
                 </Link>
                 <Link
                   to={"/register"}

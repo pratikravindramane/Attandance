@@ -14,12 +14,16 @@ import CreateFeedback from "./pages/CreateFeedback";
 import CreateTraining from "./pages/CreateTraining";
 import CheckHeart from "./pages/CheckHeart";
 import AllUsers from "./pages/AllUsers";
+import DoctorLogin from "./pages/DoctorLogin";
+import Reports from "./pages/Reports";
 function App() {
   const { isLoggedIn } = useAuth();
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/doctor-login" element={<DoctorLogin />} />
+        <Route path="/reports" element={<Reports />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/doctors" element={<Dcotors />} />

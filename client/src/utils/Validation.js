@@ -111,3 +111,19 @@ export const validateCheck = Yup.object().shape({
 export const validateFeedback = Yup.object().shape({
   text: Yup.string().required("Text is required"), // Validate the 'text' field to be a non-empty string
 });
+
+export const validateForgotPassword = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  newPassword: Yup.string()
+    .required("New Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+  confirmPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+});

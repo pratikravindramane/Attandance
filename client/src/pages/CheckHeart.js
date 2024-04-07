@@ -21,7 +21,7 @@ function CheckHeart() {
     try {
       const res = await axios.post(
         `${backendLocation}/user/check/${decode.id}`,
-        { ...values, gender: 0 },
+        { ...values},
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { validateForgotPassword, validateLogin } from "../utils/Validation";
 import { backendLocation } from "../config";
 
-function Login() {
+function DoctorLogin() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -16,7 +16,10 @@ function Login() {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const response = await axios.post(`${backendLocation}/login`, values);
+      const response = await axios.post(
+        `${backendLocation}/doctor/login`,
+        values
+      );
       if (response.data.message) {
         setServerError(response.data.message);
       } else {
@@ -35,11 +38,14 @@ function Login() {
 
   const handlePasswordChange = async (values) => {
     try {
-      const response = await axios.put(`${backendLocation}/change-password`, {
-        email: values.email,
-        password: values.newPassword,
-        confirmPassword: values.confirmPassword,
-      });
+      const response = await axios.put(
+        `${backendLocation}/doctor/change-password`,
+        {
+          email: values.email,
+          password: values.newPassword,
+          confirmPassword: values.confirmPassword,
+        }
+      );
       if (response.data.message) {
         setServerError(response.data.message);
       } else {
@@ -78,7 +84,7 @@ function Login() {
         </>
       )}
       <div className="transform">
-        <h1>Login</h1>
+        <h1>Doctor Login</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={
@@ -175,4 +181,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default DoctorLogin;

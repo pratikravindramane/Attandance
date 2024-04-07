@@ -24,6 +24,7 @@ app.use(coookieParser());
 app.use("/", require("./route/auth"));
 app.use("/user", require("./route/user"));
 app.use("/admin", require("./route/Admin"));
+app.use("/doctor", require("./route/Doctor"));
 app.use(errorHandler);
 
 // running on port

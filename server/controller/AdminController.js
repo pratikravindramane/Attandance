@@ -3,7 +3,7 @@ const FeedBack = require("../model.js/FeedBack");
 const Training = require("../model.js/Training");
 const User = require("../model.js/User");
 const asyncHandler = require("express-async-handler");
-
+const bcrypt = require("bcrypt");
 // get all
 const getAll = asyncHandler(async (req, res) => {
   try {
@@ -17,13 +17,15 @@ const getAll = asyncHandler(async (req, res) => {
 
 // Create Doctor
 const createDoctor = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
   try {
     const doctor = await Doctor.findOne({ email });
     if (doctor) {
       throw new Error("Doctor Already Exist with this Email");
     }
-    const newDoctor = new Doctor(req.body);
+    const salt = await bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hash(password, salt);
+    const newDoctor = new Doctor({ ...req.body, password: hash });
 
     await newDoctor.save();
     res.send("Doctor Added");
@@ -64,7 +66,7 @@ const getAllTraining = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-const deleteDoctor= asyncHandler(async (req, res) => {
+const deleteDoctor = asyncHandler(async (req, res) => {
   try {
     const trainings = await Doctor.findByIdAndDelete(req.params.id);
     if (!trainings) throw new Error("No Doctor Found!");
@@ -86,7 +88,7 @@ const deleteTraining = asyncHandler(async (req, res) => {
   try {
     const training = await Training.findByIdAndDelete(req.params.id);
     if (!training) throw new Error("No User Found!");
-    res.send('Delted Successfully');
+    res.send("Delted Successfully");
   } catch (error) {
     throw new Error(error);
   }
@@ -99,5 +101,5 @@ module.exports = {
   getAllTraining,
   deleteDoctor,
   deleteUser,
-  deleteTraining
+  deleteTraining,
 };

@@ -1,18 +1,18 @@
-import "../App.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { doctorValidation, validateEmployee } from "../utils/Validation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup"; // Import Yup for validation
 import { backendLocation } from "../config";
-import { useNavigate, Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { useState } from "react";
+
 function CreateDoctor() {
-  const [serverError, setServerError] = useState(false);
   const navigate = useNavigate();
+  const [serverError, setServerError] = useState(false);
   const token = localStorage.getItem("token");
-  const handleSubmit = async (values, { resetForm }) => {
+
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const newEmployee = await axios.post(
+      const response = await axios.post(
         `${backendLocation}/admin/create/doctor`,
         values,
         {
@@ -22,34 +22,55 @@ function CreateDoctor() {
           },
         }
       );
-      if (newEmployee.data.message) {
-        setServerError(newEmployee.data.message);
+      if (response.data.message) {
+        setServerError(response.data.message);
       } else {
         navigate("/doctors");
       }
     } catch (error) {
       console.log(error);
     }
-    // resetForm();
+    setSubmitting(false);
   };
+
+  // Define validation schema using Yup
+  const doctorValidationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phone: Yup.string()
+      .matches(/^\d+$/, "Phone number must contain only numbers")
+      .min(10, "Phone number must be exactly 10 digits")
+      .max(10, "Phone number must be exactly 10 digits")
+      .required("Phone is required"),
+    address: Yup.string().required("Address is required"),
+    gender: Yup.string().required("Gender is required"),
+    age: Yup.number()
+      .typeError("Age must be a number")
+      .required("Age is required"),
+    speciality: Yup.string().required("Doctor specialty is required"),
+    password: Yup.string()
+      .required("New Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      ),
+  });
 
   return (
     <div className="login">
       {serverError && (
-        <>
-          <div className="error-div">
-            <p>{serverError}</p>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setServerError(false);
-              }}
-              className="error-btn"
-            >
-              ok
-            </button>
-          </div>
-        </>
+        <div className="error-div">
+          <p>{serverError}</p>
+          <button
+            onClick={() => {
+              setServerError(false);
+            }}
+            className="error-btn"
+          >
+            Ok
+          </button>
+        </div>
       )}
       <div>
         <h1>Create Doctor</h1>
@@ -64,7 +85,7 @@ function CreateDoctor() {
             speciality: "",
             address: "",
           }}
-          validationSchema={doctorValidation}
+          validationSchema={doctorValidationSchema} // Integrate validation schema
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
@@ -148,6 +169,15 @@ function CreateDoctor() {
                   </Field>
                   <ErrorMessage
                     name="speciality"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+                <div className="d-grid mt-3">
+                  <label htmlFor="password">Password:</label>
+                  <Field type="password" name="password" />
+                  <ErrorMessage
+                    name="password"
                     component="div"
                     className="error"
                   />
