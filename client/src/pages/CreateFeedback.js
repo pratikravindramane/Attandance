@@ -14,12 +14,13 @@ function CreateDoctor() {
   const [serverError, setServerError] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   const decode = jwtDecode(token);
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const newEmployee = await axios.post(
-        `${backendLocation}/user/feedback/${decode.id}`,
-        values,
+        `${backendLocation}/${role}/feedback/${decode.id}`,
+        { ...values, role },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -30,12 +31,12 @@ function CreateDoctor() {
       if (newEmployee.data.message) {
         setServerError(newEmployee.data.message);
       } else {
-        navigate("/check/heart");
+        navigate("/reports");
       }
     } catch (error) {
       console.log(error);
     }
-    // resetForm();
+    resetForm();
   };
 
   return (

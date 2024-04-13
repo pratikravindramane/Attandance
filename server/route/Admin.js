@@ -7,6 +7,7 @@ const {
   deleteUser,
   deleteDoctor,
   deleteTraining,
+  deleteFeedback,
 } = require("../controller/AdminController");
 const { authMiddleware, isAdmin } = require("../middleware/authMiddleware");
 
@@ -20,5 +21,6 @@ route.get("/trainings", authMiddleware, isAdmin, getAllTraining);
 route.delete("/delete/user/:id", authMiddleware, isAdmin, deleteUser);
 route.delete("/delete/doctor/:id", authMiddleware, isAdmin, deleteDoctor);
 route.delete("/delete/training/:id", authMiddleware, isAdmin, deleteTraining);
+route.delete("/delete/feedback/:id", authMiddleware, isAdmin, deleteFeedback);
 
 module.exports = route;

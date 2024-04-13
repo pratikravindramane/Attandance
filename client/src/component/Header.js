@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
+
 function Header() {
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   const decode = token ? jwtDecode(token) : false;
   useEffect(() => {}, []); // Empty dependency array means useEffect runs only once when the component mounts
 
   return (
-    <div className="header  ">
+    <div className="header">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <button
@@ -80,7 +82,7 @@ function Header() {
                       Feedbacks
                     </Link>
                     <Link
-                      className={`my-1`}
+                      className="my-1 logout-link"
                       onClick={(e) => {
                         e.preventDefault();
                         logout();
@@ -93,30 +95,44 @@ function Header() {
                   </>
                 ) : (
                   <>
-                    <Link
-                      to={"/check/heart"}
-                      className={`my-1 ${
-                        location.pathname === "/check/heart" ? "active" : ""
-                      }`}
-                    >
-                      Check Heart
-                    </Link>
-
+                    {role === "user" ? (
+                      <>
+                        <Link
+                          to={"/check/heart"}
+                          className={`my-1 ${
+                            location.pathname === "/check/heart" ? "active" : ""
+                          }`}
+                        >
+                          Check Heart
+                        </Link>
+                        <Link
+                          to={"/doctors"}
+                          className={`my-1 ${
+                            location.pathname === "/doctors" ? "active" : ""
+                          }`}
+                        >
+                          Doctors
+                        </Link>
+                      </>
+                    ) : (
+                      <Link
+                        to={"/doctor/details"}
+                        className={`my-1 ${
+                          location.pathname === "/doctor/details"
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        Profile
+                      </Link>
+                    )}
                     <Link
                       to={"/reports"}
                       className={`my-1 ${
                         location.pathname === "/reports" ? "active" : ""
                       }`}
                     >
-                      Report
-                    </Link>
-                    <Link
-                      to={"/doctors"}
-                      className={`my-1 ${
-                        location.pathname === "/doctors" ? "active" : ""
-                      }`}
-                    >
-                      Doctors
+                      Reports
                     </Link>
                     <Link
                       to={"/create/feedback"}
@@ -127,7 +143,7 @@ function Header() {
                       Feedback
                     </Link>
                     <Link
-                      className={`my-1`}
+                      className="my-1 logout-link"
                       onClick={(e) => {
                         e.preventDefault();
                         logout();
@@ -199,7 +215,7 @@ function Header() {
               aria-label="Close"
             ></button>
           </div>
-          <div className="offcanvas-body d-flex flex-column ">
+          <div className="offcanvas-body d-flex flex-column">
             {isLoggedIn ? (
               <>
                 {decode.isAdmin ? (
@@ -229,7 +245,7 @@ function Header() {
                     </Link>
                     <hr />
                     <Link
-                      className="my-1 text-dark"
+                      className="my-1 text-dark logout-link"
                       onClick={(e) => {
                         e.preventDefault();
                         logout();
@@ -242,9 +258,21 @@ function Header() {
                   </>
                 ) : (
                   <>
-                    <Link to={"/check/heart"} className="my-1 text-dark">
-                      Check Heart
-                    </Link>
+                    {role === "user" && (
+                      <Link
+                        to={"/check/heart"}
+                        className={`my-1 ${
+                          location.pathname === "/check/heart" ? "active" : ""
+                        }`}
+                      >
+                        Check Heart
+                      </Link>
+                    )}
+                    {role === "doctor" && (
+                      <Link to={"/reports"} className={`my-1 text-dark`}>
+                        Reports
+                      </Link>
+                    )}
                     <hr />
                     <Link to={"/doctors"} className="my-1 text-dark">
                       Doctors
@@ -255,7 +283,7 @@ function Header() {
                     </Link>
                     <hr />
                     <Link
-                      className="my-1 text-dark"
+                      className="my-1 text-dark logout-link"
                       onClick={(e) => {
                         e.preventDefault();
                         logout();
@@ -286,7 +314,6 @@ function Header() {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 }

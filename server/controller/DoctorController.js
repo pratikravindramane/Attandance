@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const genrateToken = require("../utils/genrateToken");
 const Report = require("../model.js/Report");
 const Doctor = require("../model.js/Doctor");
+const FeedBack = require("../model.js/FeedBack");
+const validateMongoDbId = require("../utils/validateMongoDbId");
 
 // login
 const login = asyncHandler(async (req, res) => {
@@ -29,7 +31,16 @@ const login = asyncHandler(async (req, res) => {
 // get all reports
 const allReports = asyncHandler(async (req, res) => {
   try {
-    const reports = await Report.find({}).populate('user');
+    const reports = await Report.find({}).populate("user");
+    res.send(reports);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+// get doctor
+const getADoctor = asyncHandler(async (req, res) => {
+  try {
+    const reports = await Doctor.findById(req.params.id);
     res.send(reports);
   } catch (error) {
     throw new Error(error);
@@ -53,8 +64,29 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+// Create Feedback
+const feedback = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  validateMongoDbId(id);
+  try {
+    const user = await Doctor.findById(id);
+    if (!user) throw new Error("No User Found!");
+    const newFeedback = new FeedBack({
+      text: req.body.text,
+      doctor: user._id,
+      role: req.body.role,
+    });
+    await newFeedback.save();
+    res.send("FeedBack Sent");
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   login,
   allReports,
+  getADoctor,
   changePassword,
+  feedback
 };

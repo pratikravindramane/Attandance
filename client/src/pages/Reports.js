@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 const Reports = () => {
   const [reports, setRports] = useState([]);
   const [serverError, setServerError] = useState(false);
-
   const token = localStorage.getItem("token");
   const decode = jwtDecode(token);
   useEffect(() => {

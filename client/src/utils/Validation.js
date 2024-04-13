@@ -4,8 +4,12 @@ export const validateCompany = Yup.object().shape({
   desc: Yup.string().required("Description is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
-    .min(4, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("New Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
   phone: Yup.string()
     .matches(/^\d+$/, "Phone number must contain only numbers")
     .min(10, "Phone number must be exactly 10 digits")
@@ -35,8 +39,12 @@ export const validateEmployee = Yup.object().shape({
   address: Yup.string().required("Address is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
-    .min(4, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("New Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
   gender: Yup.string().required("Gender is required"),
   age: Yup.number()
     .required("Age is required")

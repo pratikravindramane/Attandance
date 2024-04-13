@@ -45,7 +45,7 @@ function CheckHeart() {
       {serverError && (
         <>
           <div className="error-div">
-            <p>{serverError}asdfadsf</p>
+            <p>{serverError}</p>
             <button
               onClick={(e) => {
                 e.preventDefault();

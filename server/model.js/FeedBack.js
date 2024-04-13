@@ -6,7 +6,14 @@ var feedbackSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+    },
+    doctor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor",
+    },
+    role: {
+      type: String,
+      require: true,
     },
     text: {
       type: String,

@@ -16,6 +16,7 @@ import CheckHeart from "./pages/CheckHeart";
 import AllUsers from "./pages/AllUsers";
 import DoctorLogin from "./pages/DoctorLogin";
 import Reports from "./pages/Reports";
+import DoctorDetails from "./pages/DoctorDetails";
 function App() {
   const { isLoggedIn } = useAuth();
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/create/training" element={<CreateTraining />} />
             <Route path="/create/doctor" element={<CreateDoctor />} />
             <Route path="/check/heart" element={<CheckHeart />} />
+            <Route path="/doctor/details" element={<DoctorDetails />} />
           </>
         )}
         <Route path="*" element={<NotFound />} /> {/* 404 route */}

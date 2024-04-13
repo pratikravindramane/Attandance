@@ -48,7 +48,7 @@ const createTraining = asyncHandler(async (req, res) => {
 // get all feeback
 const getAllFeedback = asyncHandler(async (req, res) => {
   try {
-    const feeback = await FeedBack.find({}).populate("user");
+    const feeback = await FeedBack.find({}).populate("user").populate("doctor");
     if (!feeback) throw new Error("No FeedBack Found!");
     res.send(feeback);
   } catch (error) {
@@ -93,6 +93,15 @@ const deleteTraining = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+const deleteFeedback = asyncHandler(async (req, res) => {
+  try {
+    const feedback = await FeedBack.findByIdAndDelete(req.params.id);
+    if (!feedback) throw new Error("No User Found!");
+    res.send("Delted Successfully");
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 module.exports = {
   getAll,
   createDoctor,
@@ -102,4 +111,5 @@ module.exports = {
   deleteDoctor,
   deleteUser,
   deleteTraining,
+  deleteFeedback
 };

@@ -39,7 +39,11 @@ const feedback = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(id);
     if (!user) throw new Error("No User Found!");
-    const newFeedback = new FeedBack({ text: req.body.text, user: user._id });
+    const newFeedback = new FeedBack({
+      text: req.body.text,
+      user: user._id,
+      role: req.body.role,
+    });
     await newFeedback.save();
     res.send("FeedBack Sent");
   } catch (error) {
@@ -124,7 +128,7 @@ const report = asyncHandler(async (req, res) => {
       user: id,
     });
     await report.save();
-    res.send({ report: `You have risk of ${nearestDisease}` });
+    res.send({ report: `You have ${nearestDisease}` });
   } catch (error) {
     throw new Error(error.message);
   }

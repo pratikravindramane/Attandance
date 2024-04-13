@@ -105,7 +105,7 @@ footer {
   min-height: 87vh;
   display: grid;
   gap: 1rem;
-  margin-inline: auto;
+  /* margin-inline: auto; */
   padding: 2rem;
   border-radius: 10px;
 }
@@ -197,7 +197,74 @@ th {
   margin-inline: 4rem;
 }
 /* Not Found Ended */
+/* Custom CSS for Header Component */
+.header {
+  background-color: #f8f9fa !important;
+}
 
+.navbar-brand,
+.nav-link {
+  color: #343a40 !important; /* Set link color */
+}
+
+.nav-link.active {
+  font-weight: bold !important; /* Highlight active link */
+}
+
+.logout-link {
+  color: red !important; /* Customize logout link color */
+}
+
+.hide-nav {
+  display: none;
+  flex-direction: column;
+}
+
+.offcanvas-body {
+  padding: 1rem !important;
+}
+
+.offcanvas-body a {
+  color: #343a40 !important; /* Set link color in offcanvas menu */
+}
+
+.offcanvas-body hr {
+  border-top: 1px solid #dee2e6 !important; /* Set hr color in offcanvas menu */
+}
+.flex-grid {
+  display: grid;
+}
+.login-img {
+  display: none;
+}
+/* login */
+/* doctor details */
+.doctor-details-container {
+  margin-block: 15rem;
+  display: flex;
+  justify-content: center;
+}
+
+.doctor-details {
+  max-width: 500px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+.detail-item label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.detail-item span {
+  word-break: break-word;
+}
+/* doctor details ended */
 @media screen and (min-width: 800px) {
   label {
     font-size: 1rem;
@@ -259,6 +326,7 @@ th {
     margin-bottom: 0.2rem;
   }
   .login > div {
+    /* margin-top: 5rem; */
     width: 700px;
     margin-inline: auto;
   }
@@ -266,6 +334,19 @@ th {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+  }
+  .flex-grid {
+    display: flex;
+    /* place-items: center; */
+    justify-content: space-evenly;
+    padding-block: 5rem;
+  }
+  .login-img {
+    display: block;
+    /* padding-block: 5rem; */
+    border-radius: 10px;
+    height: 400px;
+    width: auto;
   }
   /* login ended */
   /* table */

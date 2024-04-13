@@ -9,6 +9,7 @@ const Doctors = () => {
   const [serverError, setServerError] = useState(false);
 
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   const decode = jwtDecode(token);
   const navigate = useNavigate();
 
@@ -29,8 +30,25 @@ const Doctors = () => {
       } catch (error) {}
     };
     fetch();
-  }, []);
-
+  });
+  const deleteHandler = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${backendLocation}/admin/delete/feedback/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response?.data?.message) {
+        setServerError(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="table-container my-4 px-3">
       {serverError && (
@@ -55,9 +73,11 @@ const Doctors = () => {
           <thead className="table-dark ">
             <tr>
               <th scope="col">Name</th>
+              <th scope="col">Role</th>
               <th scope="col">Feedbak</th>
               <th scope="col">Date</th>
               <th scope="col">Time</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -66,10 +86,19 @@ const Doctors = () => {
               .reverse()
               .map((f, index) => (
                 <tr key={index}>
-                  <td>{f.user?.name}</td>
+                  <td>{f.role === "user" ? f.user?.name : f.doctor?.name}</td>
+                  <td>{f.role}</td>
                   <td>{f.text}</td>
                   <td>{moment(f.createdAt).format("DD/MM/YYYY")}</td>
                   <td>{moment(f.createdAt).format("hh:mm A")}</td>
+                  <td style={{ fontSize: ".8rem" }}>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteHandler(f._id)}
+                    >
+                      delete
+                    </button>
+                  </td>
                 </tr>
               ))}{" "}
           </tbody>

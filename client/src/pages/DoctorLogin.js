@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { validateForgotPassword, validateLogin } from "../utils/Validation";
 import { backendLocation } from "../config";
+import doctor1 from "../assets/doctor1.png";
 
 function DoctorLogin() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ function DoctorLogin() {
         setServerError(response.data.message);
       } else {
         login();
-        navigate(`/check/heart`);
+        navigate(`/reports`);
+        localStorage.setItem("role", "doctor");
         localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
@@ -50,7 +52,8 @@ function DoctorLogin() {
         setServerError(response.data.message);
       } else {
         login();
-        navigate(`/check/heart`);
+        navigate(`/reports`);
+        localStorage.setItem("role", "doctor");
         localStorage.setItem("token", response.data.token);
       }
     } catch (error) {
@@ -66,117 +69,126 @@ function DoctorLogin() {
   };
 
   return (
-    <div className="login">
-      {serverError && (
-        <>
-          <div className="error-div">
-            <p>{serverError}</p>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setServerError(false);
-              }}
-              className="error-btn"
-            >
-              ok
-            </button>
-          </div>
-        </>
-      )}
-      <div className="transform">
-        <h1>Doctor Login</h1>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={
-            showForgotPassword ? validateForgotPassword : validateLogin
-          }
-          onSubmit={(values, actions) => {
-            if (showForgotPassword) {
-              handlePasswordChange(values);
-            } else {
-              handleSubmit(values, actions);
-            }
-          }}
-        >
-          {({ dirty, isValid }) => (
-            <Form>
-              <div className="d-grid mt-1">
-                <label htmlFor="email">Email</label>
-                <Field type="email" id="email" name="email" />
-                <ErrorMessage name="email" component="div" className="error" />
-              </div>
-              {!showForgotPassword && (
-                <div className="d-grid mt-3">
-                  <label htmlFor="password">Password</label>
-                  {!showForgotPassword && (
-                    <Field type="password" id="password" name="password" />
-                  )}
-                  {!showForgotPassword && (
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="error"
-                    />
-                  )}
-                </div>
-              )}
-              {showForgotPassword && (
-                <>
-                  <div className="d-grid mt-3">
-                    <label htmlFor="newPassword">New Password</label>
-                    <Field
-                      type="password"
-                      id="newPassword"
-                      name="newPassword"
-                      onKeyUp={(e) => setNewPassword(e.target.value)}
-                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                    />
-                    <ErrorMessage
-                      name="newPassword"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                  <div className="d-grid mt-3">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <Field
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      validate={(value) =>
-                        value !== newPassword ? "Passwords do not match" : null
-                      }
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="error"
-                    />
-                  </div>
-                </>
-              )}
+    <div className="flex-grid">
+      <div className="login">
+        {serverError && (
+          <>
+            <div className="error-div">
+              <p>{serverError}</p>
               <button
-                type="submit"
-                style={{ width: "100%" }}
-                className="text-white text-center d-grid my-4 bg-dark py-2 rounded fs-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setServerError(false);
+                }}
+                className="error-btn"
               >
-                Login
+                ok
               </button>
-              <div className="d-flex justify-content-between align-items-center mt-3">
+            </div>
+          </>
+        )}
+        <div className="transform">
+          <h1>Doctor Login</h1>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={
+              showForgotPassword ? validateForgotPassword : validateLogin
+            }
+            onSubmit={(values, actions) => {
+              if (showForgotPassword) {
+                handlePasswordChange(values);
+              } else {
+                handleSubmit(values, actions);
+              }
+            }}
+          >
+            {({ dirty, isValid }) => (
+              <Form>
+                <div className="d-grid mt-1">
+                  <label htmlFor="email">Email</label>
+                  <Field type="email" id="email" name="email" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="error"
+                  />
+                </div>
                 {!showForgotPassword && (
-                  <button onClick={handleForgotPassword} className="btn">
-                    Forgot Password
-                  </button>
+                  <div className="d-grid mt-3">
+                    <label htmlFor="password">Password</label>
+                    {!showForgotPassword && (
+                      <Field type="password" id="password" name="password" />
+                    )}
+                    {!showForgotPassword && (
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="error"
+                      />
+                    )}
+                  </div>
                 )}
-                <Link to={"/admin/login"}>Admin Login</Link>
-                <Link to={"/register"} className="">
-                  Sign Up
-                </Link>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+                {showForgotPassword && (
+                  <>
+                    <div className="d-grid mt-3">
+                      <label htmlFor="newPassword">New Password</label>
+                      <Field
+                        type="password"
+                        id="newPassword"
+                        name="newPassword"
+                        onKeyUp={(e) => setNewPassword(e.target.value)}
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                      />
+                      <ErrorMessage
+                        name="newPassword"
+                        component="div"
+                        className="error"
+                      />
+                    </div>
+                    <div className="d-grid mt-3">
+                      <label htmlFor="confirmPassword">Confirm Password</label>
+                      <Field
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        validate={(value) =>
+                          value !== newPassword
+                            ? "Passwords do not match"
+                            : null
+                        }
+                      />
+                      <ErrorMessage
+                        name="confirmPassword"
+                        component="div"
+                        className="error"
+                      />
+                    </div>
+                  </>
+                )}
+                <button
+                  type="submit"
+                  style={{ width: "100%" }}
+                  className="text-white text-center d-grid my-4 bg-dark py-2 rounded fs-4"
+                >
+                  Login
+                </button>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  {!showForgotPassword && (
+                    <button onClick={handleForgotPassword} className="btn">
+                      Forgot Password
+                    </button>
+                  )}
+                  <Link to={"/admin/login"}>Admin Login</Link>
+                  <Link to={"/register"} className="">
+                    Sign Up
+                  </Link>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>{" "}
+      <img src={doctor1} alt="doctor" className="login-img" />
     </div>
   );
 }
