@@ -4,10 +4,11 @@ import { validateEmployee } from "../utils/Validation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { backendLocation } from "../config";
 import { useNavigate, Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
+
 function Register() {
   const [serverError, setServerError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
   const initialValues = {
     name: "",
@@ -18,6 +19,7 @@ function Register() {
     age: "",
     address: "",
   };
+
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const newEmployee = await axios.post(
@@ -32,7 +34,11 @@ function Register() {
     } catch (error) {
       console.log(error);
     }
-    // resetForm();
+  };
+
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -110,7 +116,6 @@ function Register() {
                       className="error"
                     />
                   </div>
-
                   <div className="d-grid mt-3">
                     <label htmlFor="age">Age:</label>
                     <Field type="number" name="age" />
@@ -131,7 +136,18 @@ function Register() {
                   </div>
                   <div className="d-grid mt-3">
                     <label htmlFor="password">Password</label>
-                    <Field type="password" id="password" name="password" />
+                    <Field
+                      type={showPassword ? "text" : "password"} // Toggle between text and password type
+                      id="password"
+                      name="password"
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="view-password-btn"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
                     <ErrorMessage
                       name="password"
                       component="div"

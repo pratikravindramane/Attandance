@@ -13,6 +13,7 @@ function DoctorLogin() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const { login } = useAuth();
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -68,6 +69,10 @@ function DoctorLogin() {
     confirmPassword: confirmPassword,
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex-grid">
       <div className="login">
@@ -117,7 +122,20 @@ function DoctorLogin() {
                   <div className="d-grid mt-3">
                     <label htmlFor="password">Password</label>
                     {!showForgotPassword && (
-                      <Field type="password" id="password" name="password" />
+                      <Field
+                        type={showPassword ? "text" : "password"} // Toggle between text and password type
+                        id="password"
+                        name="password"
+                      />
+                    )}
+                    {!showForgotPassword && (
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="view-password-btn"
+                      >
+                        {showPassword ? "Hide" : "Show"}
+                      </button>
                     )}
                     {!showForgotPassword && (
                       <ErrorMessage

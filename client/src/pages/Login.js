@@ -10,15 +10,16 @@ import doctor2 from "../assets/doctor2.png";
 function Login() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(false);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const { login } = useAuth();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      setLoading(true); // Set loading to true on form submit
+      setLoading(true);
       const response = await axios.post(`${backendLocation}/login`, values);
       if (response.data.message) {
         setServerError(response.data.message);
@@ -31,7 +32,7 @@ function Login() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Reset loading state after request completion
+      setLoading(false);
     }
   };
 
@@ -67,6 +68,10 @@ function Login() {
     password: "",
     newPassword: newPassword,
     confirmPassword: confirmPassword,
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -118,7 +123,20 @@ function Login() {
                   <div className="d-grid mt-3">
                     <label htmlFor="password">Password</label>
                     {!showForgotPassword && (
-                      <Field type="password" id="password" name="password" />
+                      <Field
+                        type={showPassword ? "text" : "password"} // Toggle between text and password type
+                        id="password"
+                        name="password"
+                      />
+                    )}
+                    {!showForgotPassword && (
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="view-password-btn"
+                      >
+                        {showPassword ? "Hide" : "Show"}
+                      </button>
                     )}
                     {!showForgotPassword && (
                       <ErrorMessage
@@ -170,10 +188,9 @@ function Login() {
                   type="submit"
                   style={{ width: "100%" }}
                   className="text-white text-center d-grid my-4 bg-dark py-2 rounded fs-4"
-                  disabled={loading} // Disable button when loading
+                  disabled={loading}
                 >
-                  {loading ? "Loading..." : "Login"}{" "}
-                  {/* Change button text based on loading state */}
+                  {loading ? "Loading..." : "Login"}
                 </button>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   {!showForgotPassword && (
@@ -190,7 +207,7 @@ function Login() {
             )}
           </Formik>
         </div>
-      </div>
+      </div>{" "}
       <img src={doctor2} alt="doctor" className="login-img" />
     </div>
   );

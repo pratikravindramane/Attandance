@@ -83,6 +83,22 @@ const report = asyncHandler(async (req, res) => {
     thalach,
     oldPeak,
   };
+  // Check if all values are zero
+  if (
+    chestPain <= 0 &&
+    sugar <= 0 &&
+    restecg <= 0 &&
+    exang <= 0 &&
+    slope <= 0 &&
+    ca <= 0 &&
+    bp <= 0 &&
+    thal <= 0 &&
+    cholesterol <= 0 &&
+    thalach <= 0 &&
+    oldPeak <= 0
+  ) {
+    throw new Error("Please enter proper information");
+  }
   validateMongoDbId(id);
   try {
     const diseases = await Training.find({});

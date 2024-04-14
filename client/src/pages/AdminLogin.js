@@ -11,12 +11,13 @@ import doctor2 from "../assets/doctor2.png";
 function AdminLogin() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(false);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const { login } = useAuth();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      setLoading(true); // Set loading to true on form submit
+      setLoading(true);
       const response = await axios.post(`${backendLocation}/admin`, values);
       if (response.data.message) {
         setServerError(response.data.message);
@@ -28,8 +29,12 @@ function AdminLogin() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Reset loading state after request completion
+      setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const initialValues = {
@@ -74,7 +79,18 @@ function AdminLogin() {
                 </div>
                 <div className="d-grid mt-3">
                   <label htmlFor="password">Password</label>
-                  <Field type="password" id="password" name="password" />
+                  <Field
+                    type={showPassword ? "text" : "password"} // Toggle between text and password type
+                    id="password"
+                    name="password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="view-password-btn"
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
                   <ErrorMessage
                     name="password"
                     component="div"
@@ -85,10 +101,9 @@ function AdminLogin() {
                   type="submit"
                   style={{ width: "100%" }}
                   className="text-white text-center d-grid my-4 bg-dark py-2 rounded fs-4"
-                  disabled={loading} // Disable button when loading
+                  disabled={loading}
                 >
-                  {loading ? "Loading..." : "Login"}{" "}
-                  {/* Change button text based on loading state */}
+                  {loading ? "Loading..." : "Login"}
                 </button>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <Link to={"/register"}>Sign Up</Link>
